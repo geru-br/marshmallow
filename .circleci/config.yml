@@ -10,7 +10,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            pip install -e .
+            pip install -e . --user
       - run:
           name: run tests
           command: |
@@ -27,7 +27,7 @@ jobs:
           name: build and upload to geru-pypi
           command: |
             python setup.py sdist
-            pip install twine
+            pip install twine --user
             twine upload --repository-url https://geru-pypi.geru.com.br/ dist/*
 workflows:
   version: 2

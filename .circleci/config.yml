@@ -20,8 +20,6 @@ jobs:
       - image: circleci/python:3.6
     steps:
       - checkout
-      - attach_workspace:
-          at: .
       - run:
           name: build and upload to geru-pypi
           command: |

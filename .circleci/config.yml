@@ -1,21 +1,6 @@
 version: 2
 jobs:
-  test-python-2-7:
-    docker:
-      - image: circleci/python:2.7
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-      - run:
-          name: install dependencies
-          command: |
-            pip install -e .[test]
-      - run:
-          name: run tests
-          command: |
-            tox
-  test-python-3-6:
+  tests:
     docker:
       - image: circleci/python:3.6
     working_directory: ~/repo
@@ -48,12 +33,10 @@ workflows:
   version: 2
   test-and-deploy:
     jobs:
-      - test-python-2-7
-      - test-python-3-6
+      - tests
       - deploy:
           requires:
-            - test-python-2-7
-            - test-python-3-6
+            - tests
           filters:
             branches:
               only:

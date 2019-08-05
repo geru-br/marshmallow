@@ -1,0 +1,60 @@
+version: 2
+jobs:
+  test-python-2-7:
+    docker:
+      - image: circleci/python:2.7
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            pip install -e .[test]
+      - run:
+          name: run tests
+          command: |
+            tox
+  test-python-3-6:
+    docker:
+      - image: circleci/python:3.6
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            pip install -e .[test]
+      - run:
+          name: run tests
+          command: |
+            tox
+
+  deploy:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: build and upload to geru-pypi
+          command: |
+            python setup.py sdist
+            pip install twine
+            twine upload --repository-url https://geru-pypi.geru.com.br/ dist/*
+workflows:
+  version: 2
+  test-and-deploy:
+    jobs:
+      - test-python-2-7
+      - test-python-3-6
+      - deploy:
+          requires:
+            - test-python-2-7
+            - test-python-3-6
+          filters:
+            branches:
+              only:
+                - geru-2.x.line

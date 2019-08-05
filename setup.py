@@ -49,7 +49,7 @@ def read(fname):
 
 
 setup(
-    name='geru-marshmallow',
+    name='marshmallow',
     version=find_version('src/marshmallow/__init__.py'),
     description=('A lightweight library for converting complex '
                 'datatypes to and from native Python datatypes.'),

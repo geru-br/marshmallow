@@ -10,7 +10,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            pip install -e .[test]
+            pip install -e .
       - run:
           name: run tests
           command: |
